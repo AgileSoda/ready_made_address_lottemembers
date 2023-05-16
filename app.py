@@ -4,6 +4,7 @@ import folium, json
 from streamlit_folium import st_folium
 from folium import plugins
 import random
+from PIL import Image
 
 random.seed(100)
 
@@ -74,7 +75,7 @@ def display_map(df_orig, geo_json, gu_name):
 
     choropleth.add_to(map)
 
-    st_map = st_folium(map, width=1400, height=500)
+    st_map = st_folium(map, width=1200, height=400)
 
     return st_map, df
 
@@ -114,23 +115,40 @@ def main():
 
     gu_name = st.sidebar.selectbox("군/구", ["---전체---"] + gu_list, index=1)
 
-    st_map, df = display_map(df, geo_json, gu_name)
+    col1, col2 = st.columns([2, 1])
+    with col1:
+        st_map, df = display_map(df, geo_json, gu_name)
 
     hjd_name = get_description(st_map, df)
 
     if hjd_name != "":
-        st.subheader(hjd_name)
-        st.markdown("**요약**")
-        st.write(df[df["행정구역"] == hjd_name]["total_story"].values[0])
+        with col2:
+            st.image(f"data/image/{hjd_name}1.jfif", width=400)
+            st.image(f"data/image/{hjd_name}2.jfif", width=400)
+        st.markdown(f"# {hjd_name}")
+        st.markdown("## 요약")
+        st.write(
+            f'<p style="font-size:20px;">{df[df["행정구역"] == hjd_name]["total_story"].values[0]}</p>',
+            unsafe_allow_html=True,
+        )
         st.markdown("---")
-        st.markdown("**인구 스토리**")
-        st.write(df[df["행정구역"] == hjd_name]["population_story"].values[0])
+        st.markdown("## 인구 스토리")
+        st.write(
+            f'<p style="font-size:20px;">{df[df["행정구역"] == hjd_name]["population_story"].values[0]}</p>',
+            unsafe_allow_html=True,
+        )
         st.markdown("---")
-        st.markdown("**외식업 스토리**")
-        st.write(df[df["행정구역"] == hjd_name]["food_store_story"].values[0])
+        st.markdown("## 외식업 스토리")
+        st.write(
+            f'<p style="font-size:20px;">{df[df["행정구역"] == hjd_name]["food_store_story"].values[0]}</p>',
+            unsafe_allow_html=True,
+        )
         st.markdown("---")
-        st.markdown("**소매업 스토리**")
-        st.write(df[df["행정구역"] == hjd_name]["retail_store_story"].values[0])
+        st.markdown("## 소매업 스토리")
+        st.write(
+            f'<p style="font-size:20px;">{df[df["행정구역"] == hjd_name]["retail_store_story"].values[0]}</p>',
+            unsafe_allow_html=True,
+        )
 
 
 if __name__ == "__main__":
