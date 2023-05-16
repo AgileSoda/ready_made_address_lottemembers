@@ -21,7 +21,7 @@ def display_map(df_orig, geo_json, gu_name):
     )
 
     if len(df) == 0:
-        st_map = st_folium(map, width=1500, height=700)
+        st_map = st_folium(map, width=1400, height=500)
         return st_map, df
 
     code_list = list(df["행정동코드"].unique())
@@ -83,7 +83,7 @@ def get_description(st_map, df):
     hjd_name = ""
     if st_map["last_active_drawing"]:
         hjd_code = st_map["last_active_drawing"]["properties"]["adm_cd"]
-        hjd_name = df[df["행정동코드"] == hjd_code]["행정동"].values[0]
+        hjd_name = df[df["행정동코드"] == hjd_code]["행정구역"].values[0]
     return hjd_name
 
 
@@ -108,7 +108,7 @@ def main():
 
     with open("seoul_geojson.json", "r") as read:
         geo_json = json.load(read)
-    df = pd.read_csv("레히오나.csv", dtype={"행정동코드": object})
+    df = pd.read_csv("result.csv", dtype={"행정동코드": object})
     df["행정동코드"] = df["행정동코드"].apply(lambda x: x[:-1])
     gu_list = sorted(list(df["시군구"].unique()))
 
@@ -120,10 +120,17 @@ def main():
 
     if hjd_name != "":
         st.subheader(hjd_name)
-        st.write(df[df["행정동"] == hjd_name]["요약 스토리"].values[0])
-        st.write(df[df["행정동"] == hjd_name]["외식업 스토리"].values[0])
-        st.write(df[df["행정동"] == hjd_name]["소매업 스토리"].values[0])
-        st.write(df[df["행정동"] == hjd_name]["인구 스토리"].values[0])
+        st.markdown("**요약**")
+        st.write(df[df["행정구역"] == hjd_name]["total_story"].values[0])
+        st.markdown("---")
+        st.markdown("**인구 스토리**")
+        st.write(df[df["행정구역"] == hjd_name]["population_story"].values[0])
+        st.markdown("---")
+        st.markdown("**외식업 스토리**")
+        st.write(df[df["행정구역"] == hjd_name]["food_store_story"].values[0])
+        st.markdown("---")
+        st.markdown("**소매업 스토리**")
+        st.write(df[df["행정구역"] == hjd_name]["retail_store_story"].values[0])
 
 
 if __name__ == "__main__":
