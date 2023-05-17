@@ -14,3 +14,8 @@ output : data/preprocessed_commercial_area.csv
 make_prompt_hashtag.ipynb
 
 output : data/prompt_story.csv
+
+### 4) 모니터링
+```python
+streamlit run app.py
+```
