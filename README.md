@@ -11,7 +11,7 @@ preprocess_commercial_area_data.ipynb
 output : data/preprocessed_commercial_area.csv
 
 ### 3) 프롬프트 엔지니어링
-make_prompt_hashtag.ipynb
+make_prompt_story.ipynb
 
 output : data/prompt_story.csv
 
