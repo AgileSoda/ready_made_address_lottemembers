@@ -8,7 +8,7 @@ from PIL import Image
 
 random.seed(100)
 
-APP_TITLE = "서울시 레히오나"
+APP_TITLE = "서울시 레히오나 (Regióna)"
 
 
 def display_map(df_orig, geo_json, gu_name):
@@ -75,7 +75,7 @@ def display_map(df_orig, geo_json, gu_name):
 
     choropleth.add_to(map)
 
-    st_map = st_folium(map, width=1200, height=400)
+    st_map = st_folium(map, width=1200, height=700)
 
     return st_map, df
 
